@@ -1,8 +1,8 @@
 export type TokenSchema = {
-    userId: number;
+  userId: number;
 };
-  
+
 export type TokenPayload = TokenSchema & {
-    iat: number;
-    exp: number;
+  iat: number;
+  exp: number;
 };
