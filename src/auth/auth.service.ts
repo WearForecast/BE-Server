@@ -1,9 +1,4 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { AuthRepository } from './auth.repository';
 import { SignUpPayload } from './payload/sign-up.payload';
 import { BcryptPasswordService } from './bcrypt-password.service';
