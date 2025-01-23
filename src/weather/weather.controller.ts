@@ -7,11 +7,11 @@ export class WeatherController {
 
   @Get()
   async getWeather(
-    @Query('date') date: string,
-    @Query('time') time: string,
+    // @Query('date') date: string,
+    // @Query('time') time: string,
     @Query('nx') nx: number,
     @Query('ny') ny: number,
   ) {
-    return this.weatherService.getWeather(date, time, nx, ny);
+    return this.weatherService.getWeather(nx, ny);
   }
 }

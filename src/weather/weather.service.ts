@@ -9,8 +9,36 @@ export class WeatherService {
 
   private readonly targetCategories = ['POP', 'PTY', 'SKY', 'TMN', 'TMX', 'WSD', 'REH'];
 
-  // 1. 동네예보 API 호출
-  private async getForecastData(baseDate: string, baseTime: string, nx: number, ny: number) {
+  // Calculate `baseDate` and `baseTime` dynamically
+  private calculateBaseTime(): { baseDate: string; baseTime: string } {
+    const now = new Date();
+    const availableTimes = [2, 5, 8, 11, 14, 17, 20, 23]; // Available hours
+    let closestHour = availableTimes[0];
+
+    // Find the closest hour <= current hour
+    for (const hour of availableTimes) {
+      if (now.getHours() >= hour) {
+        closestHour = hour;
+      } else {
+        break;
+      }
+    }
+
+    // Adjust `baseDate` if the closest hour is in the previous day
+    let baseDate = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
+    if (now.getHours() < closestHour) {
+      const yesterday = new Date(now);
+      yesterday.setDate(now.getDate() - 1);
+      baseDate = `${yesterday.getFullYear()}${String(yesterday.getMonth() + 1).padStart(2, '0')}${String(yesterday.getDate()).padStart(2, '0')}`;
+    }
+
+    const baseTime = String(closestHour).padStart(2, '0') + '00';
+    return { baseDate, baseTime };
+  }
+
+  // Fetch forecast data
+  private async getForecastData(nx: number, ny: number) {
+    const { baseDate, baseTime } = this.calculateBaseTime();
     const queryParams = qs.stringify({
       serviceKey: process.env.KMA_API_KEY,
       pageNo: 1,
@@ -31,8 +59,9 @@ export class WeatherService {
     }, {});
   }
 
-  // 2. 초단기실황 API 호출
-  private async getCurrentTemperature(baseDate: string, baseTime: string, nx: number, ny: number) {
+  // Fetch current temperature (T1H)
+  private async getCurrentTemperature(nx: number, ny: number) {
+    const { baseDate, baseTime } = this.calculateBaseTime();
     const queryParams = qs.stringify({
       serviceKey: process.env.KMA_API_KEY,
       pageNo: 1,
@@ -43,22 +72,21 @@ export class WeatherService {
       nx,
       ny,
     });
-    
+
     const response = await axios.get(`${this.currentApiUrl}?${queryParams}`);
     const items = response.data.response.body?.items?.item || [];
-    const temperatureData = items.find((i) => i.category === 'T1H'); // 기온 데이터만 추출
-    return temperatureData ? temperatureData.obsrValue : null; // 없으면 null
+    const temperatureData = items.find((i) => i.category === 'T1H');
+    return temperatureData ? temperatureData.obsrValue : null;
   }
 
-  // 3. 통합 데이터 반환
-  async getWeather(baseDate: string, baseTime: string, nx: number, ny: number) {
+  // Fetch combined weather data
+  async getWeather(nx: number, ny: number) {
     try {
       const [forecastData, temperature] = await Promise.all([
-        this.getForecastData(baseDate, baseTime, nx, ny),
-        this.getCurrentTemperature(baseDate, baseTime, nx, ny),
+        this.getForecastData(nx, ny),
+        this.getCurrentTemperature(nx, ny),
       ]);
 
-      // 초단기 실황 데이터(T1H)를 추가
       return {
         ...forecastData,
         T1H: temperature,
