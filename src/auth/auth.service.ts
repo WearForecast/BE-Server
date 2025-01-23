@@ -56,7 +56,7 @@ export class AuthService {
     );
 
     if (!isPasswordMatch) {
-      throw new ConflictException('비밀번호가 일치하지 않습니다.');
+      throw new ConflictException('ID/비밀번호가 일치하지 않습니다.');
     }
 
     return this.generateTokens(user.id);
