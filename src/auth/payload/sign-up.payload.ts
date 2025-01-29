@@ -1,6 +1,5 @@
-import { IsDate, IsEmail, IsString } from 'class-validator';
+import { IsEmail, IsInt, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
 
 export class SignUpPayload {
   @IsString()
@@ -24,13 +23,12 @@ export class SignUpPayload {
   })
   password!: string;
 
-  @IsDate()
-  @Type(() => Date)
+  @IsInt()
   @ApiProperty({
-    description: '생년월일',
-    type: Date,
+    description: '생년',
+    type: Number,
   })
-  birthday: Date;
+  birthyear: number;
 
   @IsString()
   @ApiProperty({

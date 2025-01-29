@@ -29,7 +29,7 @@ export class AuthService {
       name: payload.name,
       email: payload.email,
       password: hashedPassword,
-      birthday: payload.birthday,
+      birthyear: payload.birthyear,
       region: payload.region,
       gender: payload.gender,
     };
