@@ -1,19 +1,35 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
 import * as qs from 'qs';
-import { LocationService } from './location/location.service'; // Import LocationService
+import { LocationService } from './location/location.service';
+
+const SKY_MAP: Record<string, string> = {
+  '1': 'clear',
+  '3': 'partly cloudy',
+  '4': 'cloudy',
+};
+
+const PTY_MAP: Record<string, string> = {
+  '0': 'none',
+  '1': 'rain',
+  '2': 'rain/snow',
+  '3': 'snow',
+  '4': 'rain shower',
+};
 
 @Injectable()
 export class WeatherService {
   constructor(private readonly locationService: LocationService) {}
 
-  // 단기예보, 초단기실황황
-  private readonly forecastApiUrl = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst';
-  private readonly currentApiUrl = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
+  // 단기예보, 초단기실황
+  private readonly forecastApiUrl =
+    'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst';
+  private readonly currentApiUrl =
+    'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
 
   private readonly targetCategories = ['POP', 'PTY', 'SKY', 'TMN', 'TMX', 'WSD', 'REH'];
 
-  // Calculate `baseDate` and `baseTime` dynamically (단기예보 조회시 기준 날짜와 시간 계산)
+  // Calculate baseDate and baseTime dynamically (단기예보 조회시 기준 날짜와 시간 계산)
   private calculateBaseTime(): { baseDate: string; baseTime: string } {
     const now = new Date();
     const availableTimes = [2, 5, 8, 11, 14, 17, 20, 23];
@@ -27,11 +43,16 @@ export class WeatherService {
       }
     }
 
-    let baseDate = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
+    let baseDate = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(
+      now.getDate(),
+    ).padStart(2, '0')}`;
     if (now.getHours() < closestHour) {
       const yesterday = new Date(now);
       yesterday.setDate(now.getDate() - 1);
-      baseDate = `${yesterday.getFullYear()}${String(yesterday.getMonth() + 1).padStart(2, '0')}${String(yesterday.getDate()).padStart(2, '0')}`;
+      baseDate = `${yesterday.getFullYear()}${String(yesterday.getMonth() + 1).padStart(
+        2,
+        '0',
+      )}${String(yesterday.getDate()).padStart(2, '0')}`;
     }
 
     const baseTime = String(closestHour).padStart(2, '0') + '00';
@@ -58,10 +79,10 @@ export class WeatherService {
       const item = items.find((i) => i.category === category);
       acc[category] = item ? item.fcstValue : null; // 값이 없으면 null
       return acc;
-    }, {});
+    }, {} as Record<string, string | null>);
   }
 
-  // Fetch current temperature (T1H) 초단기실황황
+  // Fetch current temperature (T1H) 초단기실황
   private async getCurrentTemperature(nx: number, ny: number) {
     const { baseDate, baseTime } = this.calculateBaseTime();
     const queryParams = qs.stringify({
@@ -81,6 +102,24 @@ export class WeatherService {
     return temperatureData ? temperatureData.obsrValue : null;
   }
 
+  // Helper to map numeric code to English text
+  private mapWeatherCodes(forecastData: Record<string, string | null>) {
+    // Copy original object
+    const mapped = { ...forecastData };
+
+    // Map SKY
+    if (mapped.SKY !== null) {
+      mapped.SKY = SKY_MAP[mapped.SKY] || 'unknown'; 
+    }
+
+    // Map PTY
+    if (mapped.PTY !== null) {
+      mapped.PTY = PTY_MAP[mapped.PTY] || 'unknown';
+    }
+
+    return mapped;
+  }
+
   // Fetch combined weather data by location
   async getWeatherByLocation(region: string) {
     try {
@@ -93,8 +132,11 @@ export class WeatherService {
         this.getCurrentTemperature(nx, ny),
       ]);
 
+      // Map numeric codes to English words (SKY, PTY)
+      const mappedForecastData = this.mapWeatherCodes(forecastData);
+
       return {
-        ...forecastData,
+        ...mappedForecastData,
         T1H: temperature,
       };
     } catch (error) {
