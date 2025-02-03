@@ -5,11 +5,24 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  app.enableCors(); // Enable CORS
+
   const config = new DocumentBuilder()
     .setTitle('WearForecast Server')
-    .setDescription('WearForecast API description')
+    .setDescription('WearForecast API Description')
     .setVersion('1.0')
-    .addTag('Wearforecast')
+    .addTag('Wearforecast API List')
+    .addBearerAuth(
+      {
+        type: 'http',
+        scheme: 'bearer',
+        bearerFormat: 'JWT',
+        name: 'JWT',
+        description: 'Enter JWT token',
+        in: 'header',
+      },
+      'access-token',
+    )
     .build();
   const document = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);

@@ -5,8 +5,8 @@ import { ConfigModule } from '@nestjs/config';
 import { LocationModule } from './location/location.module';
 
 @Module({
-    imports: [ConfigModule.forRoot(), LocationModule],
-    providers: [WeatherService],
-    controllers: [WeatherController],
+  imports: [ConfigModule.forRoot(), LocationModule],
+  providers: [WeatherService],
+  controllers: [WeatherController],
 })
 export class WeatherModule {}
