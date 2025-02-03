@@ -54,7 +54,10 @@ export class AuthController {
 
   @Post('login')
   @HttpCode(200)
-  @ApiOperation({ summary: '로그인' , description: 'admin@korea.ac.kr, admin2025'})
+  @ApiOperation({
+    summary: '로그인',
+    description: 'admin@korea.ac.kr, admin2025',
+  })
   @ApiOkResponse({ type: TokenDto })
   async login(
     @Body() payload: LoginPayload,

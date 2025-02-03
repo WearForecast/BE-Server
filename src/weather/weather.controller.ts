@@ -12,7 +12,7 @@ export class WeatherController {
   @UseGuards(JwtAuthGuard)
   async getUserWeather(@Request() req) {
     const { user } = req;
-    
+
     if (!user || !user.region) {
       throw new Error('User region not found');
     }
@@ -20,7 +20,7 @@ export class WeatherController {
     const weatherData = await this.weatherService.getWeatherByLocation(
       user.region,
     );
-    
+
     return { weather: weatherData };
   }
 }

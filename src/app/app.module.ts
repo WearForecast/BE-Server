@@ -9,7 +9,14 @@ import { WeatherModule } from 'src/weather/weather.module';
 import { RecommendationModule } from 'src/recommendation/recommendation.module';
 
 @Module({
-  imports: [AuthModule, UsersModule, configModule, CommonModule, WeatherModule, RecommendationModule],
+  imports: [
+    AuthModule,
+    UsersModule,
+    configModule,
+    CommonModule,
+    WeatherModule,
+    RecommendationModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
