@@ -1,18 +1,26 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Request, UseGuards } from '@nestjs/common';
 import { WeatherService } from './weather.service';
+import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('weather')
 export class WeatherController {
   constructor(private readonly weatherService: WeatherService) {}
 
   @Get()
-  async getWeather(
-    @Query('region') region: string,
-  ) {
-    if (!region) {
-      throw new Error('Region is required');
+  @ApiBearerAuth('access-token')
+  @UseGuards(JwtAuthGuard)
+  async getUserWeather(@Request() req) {
+    const { user } = req;
+    
+    if (!user || !user.region) {
+      throw new Error('User region not found');
     }
 
-    return this.weatherService.getWeatherByLocation(region);
+    const weatherData = await this.weatherService.getWeatherByLocation(
+      user.region,
+    );
+    
+    return { weather: weatherData };
   }
 }

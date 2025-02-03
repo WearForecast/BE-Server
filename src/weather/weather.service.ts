@@ -27,7 +27,15 @@ export class WeatherService {
   private readonly currentApiUrl =
     'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getUltraSrtNcst';
 
-  private readonly targetCategories = ['POP', 'PTY', 'SKY', 'TMN', 'TMX', 'WSD', 'REH'];
+  private readonly targetCategories = [
+    'POP',
+    'PTY',
+    'SKY',
+    'TMN',
+    'TMX',
+    'WSD',
+    'REH',
+  ];
 
   // Calculate baseDate and baseTime dynamically (단기예보 조회시 기준 날짜와 시간 계산)
   private calculateBaseTime(): { baseDate: string; baseTime: string } {
@@ -49,10 +57,9 @@ export class WeatherService {
     if (now.getHours() < closestHour) {
       const yesterday = new Date(now);
       yesterday.setDate(now.getDate() - 1);
-      baseDate = `${yesterday.getFullYear()}${String(yesterday.getMonth() + 1).padStart(
-        2,
-        '0',
-      )}${String(yesterday.getDate()).padStart(2, '0')}`;
+      baseDate = `${yesterday.getFullYear()}${String(
+        yesterday.getMonth() + 1,
+      ).padStart(2, '0')}${String(yesterday.getDate()).padStart(2, '0')}`;
     }
 
     const baseTime = String(closestHour).padStart(2, '0') + '00';
@@ -75,11 +82,14 @@ export class WeatherService {
 
     const response = await axios.get(`${this.forecastApiUrl}?${queryParams}`);
     const items = response.data.response.body?.items?.item || [];
-    return this.targetCategories.reduce((acc, category) => {
-      const item = items.find((i) => i.category === category);
-      acc[category] = item ? item.fcstValue : null; // 값이 없으면 null
-      return acc;
-    }, {} as Record<string, string | null>);
+    return this.targetCategories.reduce(
+      (acc, category) => {
+        const item = items.find((i) => i.category === category);
+        acc[category] = item ? item.fcstValue : null; // 값이 없으면 null
+        return acc;
+      },
+      {} as Record<string, string | null>,
+    );
   }
 
   // Fetch current temperature (T1H) 초단기실황
@@ -109,7 +119,7 @@ export class WeatherService {
 
     // Map SKY
     if (mapped.SKY !== null) {
-      mapped.SKY = SKY_MAP[mapped.SKY] || 'unknown'; 
+      mapped.SKY = SKY_MAP[mapped.SKY] || 'unknown';
     }
 
     // Map PTY
@@ -140,7 +150,10 @@ export class WeatherService {
         T1H: temperature,
       };
     } catch (error) {
-      console.error('Error fetching weather data:', error.response?.data || error.message);
+      console.error(
+        'Error fetching weather data:',
+        error.response?.data || error.message,
+      );
       throw new Error('Failed to fetch weather data');
     }
   }

@@ -1,4 +1,9 @@
-import { ConflictException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { AuthRepository } from './auth.repository';
 import { SignUpPayload } from './payload/sign-up.payload';
 import { BcryptPasswordService } from './bcrypt-password.service';
@@ -6,6 +11,8 @@ import { SignUpData } from './type/sign-up-data.type';
 import { Tokens } from './type/tokens.type';
 import { TokenService } from './token.service';
 import { LoginPayload } from './payload/login.payload';
+import { UserBaseInfo } from './type/user-base-info.type';
+import { ChangePasswordPayload } from './payload/change-password.payload';
 
 @Injectable()
 export class AuthService {
@@ -70,6 +77,28 @@ export class AuthService {
     }
 
     return this.generateTokens(user.id);
+  }
+
+  async changePassword(
+    payload: ChangePasswordPayload,
+    user: UserBaseInfo,
+  ): Promise<void> {
+    const isValid = await this.passwordService.validatePassword(
+      payload.currentPassword,
+      user.password,
+    );
+
+    if (!isValid) {
+      throw new UnauthorizedException('현재 비밀번호가 일치하지 않습니다.');
+    }
+
+    const hashedPassword = await this.passwordService.getEncryptPassword(
+      payload.newPassword,
+    );
+
+    await this.authRepository.updateUser(user.id, {
+      password: hashedPassword,
+    });
   }
 
   private async generateTokens(userId: number): Promise<Tokens> {

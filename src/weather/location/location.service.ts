@@ -4,7 +4,8 @@ import axios from 'axios';
 @Injectable()
 export class LocationService {
   // Geocoding API base URL (Google Maps API)
-  private readonly geocodeApiUrl = 'https://maps.googleapis.com/maps/api/geocode/json';
+  private readonly geocodeApiUrl =
+    'https://maps.googleapis.com/maps/api/geocode/json';
 
   // Convert latitude/longitude to nx/ny
   private latLonToGrid(lat: number, lon: number): { nx: number; ny: number } {
@@ -25,16 +26,18 @@ export class LocationService {
     const olon = OLON * DEGRAD;
     const olat = OLAT * DEGRAD;
 
-    const sn = Math.tan(Math.PI * 0.25 + slat2 * 0.5) / Math.tan(Math.PI * 0.25 + slat1 * 0.5);
+    const sn =
+      Math.tan(Math.PI * 0.25 + slat2 * 0.5) /
+      Math.tan(Math.PI * 0.25 + slat1 * 0.5);
     const sf = Math.tan(Math.PI * 0.25 + slat1 * 0.5);
     const ro = Math.tan(Math.PI * 0.25 + olat * 0.5);
 
     const sfn = Math.log(Math.cos(slat1) / Math.cos(slat2)) / Math.log(sn);
-    const sfo = Math.pow(sf, sfn) * Math.cos(slat1) / sfn;
-    const rro = re * sfo / Math.pow(ro, sfn);
+    const sfo = (Math.pow(sf, sfn) * Math.cos(slat1)) / sfn;
+    const rro = (re * sfo) / Math.pow(ro, sfn);
 
     const rlat = Math.tan(Math.PI * 0.25 + lat * DEGRAD * 0.5);
-    const rra = re * sfo / Math.pow(rlat, sfn);
+    const rra = (re * sfo) / Math.pow(rlat, sfn);
     const theta = lon * DEGRAD - olon;
 
     const rx = rra * Math.sin(theta * sfn) + XO;
