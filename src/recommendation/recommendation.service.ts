@@ -2,7 +2,6 @@ import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { WeatherService } from 'src/weather/weather.service';
 import { RecommendationResponseDto } from './dto/recommendation-response.dto';
-import { AIRequestDto } from './dto/AI-request.dto';
 import { firstValueFrom } from 'rxjs';
 import { buildAIRequestPayload } from './payload/ai-request.payload';
 
