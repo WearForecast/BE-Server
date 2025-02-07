@@ -12,7 +12,7 @@ async function bootstrap() {
     .setDescription('WearForecast API Description')
     .setVersion('1.0')
     .addTag('Wearforecast API List')
-    .addBearerAuth(
+    .addBearerAuth( // Add bearer token authentication(swagger)
       {
         type: 'http',
         scheme: 'bearer',

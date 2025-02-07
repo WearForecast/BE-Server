@@ -22,6 +22,7 @@ export class AuthService {
     private readonly tokenService: TokenService,
   ) {}
 
+  //Sign up Logic
   async signUp(payload: SignUpPayload): Promise<Tokens> {
     const user = await this.authRepository.getUserByEmail(payload.email);
     if (user) {
@@ -46,6 +47,7 @@ export class AuthService {
     return this.generateTokens(createdUser.id);
   }
 
+  // Login Logic
   async login(payload: LoginPayload): Promise<Tokens> {
     const user = await this.authRepository.getUserByEmail(payload.email);
     if (!user) {
@@ -64,6 +66,7 @@ export class AuthService {
     return this.generateTokens(user.id);
   }
 
+  // Refresh Token Logic
   async refresh(refreshToken: string): Promise<Tokens> {
     const data = this.tokenService.verifyRefreshToken(refreshToken);
 
@@ -79,6 +82,7 @@ export class AuthService {
     return this.generateTokens(user.id);
   }
 
+  // Change Password Logic
   async changePassword(
     payload: ChangePasswordPayload,
     user: UserBaseInfo,
@@ -101,6 +105,7 @@ export class AuthService {
     });
   }
 
+  // Generate Tokens Logic
   private async generateTokens(userId: number): Promise<Tokens> {
     const tokens = this.tokenService.generateTokens({ userId });
 
