@@ -7,6 +7,7 @@ async function bootstrap() {
 
   app.enableCors(); // Enable CORS
 
+  // Swagger Setting
   const config = new DocumentBuilder()
     .setTitle('WearForecast Server')
     .setDescription('WearForecast API Description')
@@ -25,7 +26,11 @@ async function bootstrap() {
     )
     .build();
   const document = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup('docs', app, document, {
+    swaggerOptions: {  // Keep Authorization after page refresh
+      persistAuthorization: true,
+    },
+  });
 
   const port = process.env.PORT || 3000;
   await app.listen(port);
