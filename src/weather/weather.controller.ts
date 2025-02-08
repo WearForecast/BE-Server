@@ -10,7 +10,7 @@ export class WeatherController {
 
   @Get()
   @ApiOperation({ summary: '날씨 정보 가져오기' })
-  @ApiOkResponse({ type: WeatherResponseDto})
+  @ApiOkResponse({ type: WeatherResponseDto })
   @ApiBearerAuth('access-token')
   @UseGuards(JwtAuthGuard)
   async getUserWeather(@Request() req) {

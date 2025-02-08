@@ -13,7 +13,8 @@ async function bootstrap() {
     .setDescription('WearForecast API Description')
     .setVersion('1.0')
     .addTag('Wearforecast API List')
-    .addBearerAuth( // Add bearer token authentication(swagger)
+    .addBearerAuth(
+      // Add bearer token authentication(swagger)
       {
         type: 'http',
         scheme: 'bearer',
@@ -27,7 +28,8 @@ async function bootstrap() {
     .build();
   const document = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document, {
-    swaggerOptions: {  // Keep Authorization after page refresh
+    swaggerOptions: {
+      // Keep Authorization after page refresh
       persistAuthorization: true,
     },
   });

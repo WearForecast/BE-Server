@@ -1,14 +1,14 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class RecommendationResponseDto {
   @ApiProperty({
-    description: "Recommendation images",
+    description: 'Recommendation images',
     type: [String],
   })
   images: string[];
 
   @ApiProperty({
-    description: "Recommendation summary",
+    description: 'Recommendation summary',
     type: String,
   })
   recommendation_summary: string;

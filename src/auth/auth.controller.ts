@@ -31,7 +31,6 @@ import { ChangePasswordPayload } from './payload/change-password.payload';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-
   // Sign Up
   @Post('sign-up')
   @ApiOperation({ summary: '회원가입' })
@@ -53,7 +52,6 @@ export class AuthController {
 
     return TokenDto.from(tokens.accessToken);
   }
-
 
   // Login
   @Post('login')
@@ -81,7 +79,6 @@ export class AuthController {
     return TokenDto.from(tokens.accessToken);
   }
 
-
   // Refresh Token
   @Post('refresh')
   @HttpCode(200)
@@ -107,7 +104,6 @@ export class AuthController {
 
     return TokenDto.from(tokens.accessToken);
   }
-
 
   // Password Change
   @Put('password')
