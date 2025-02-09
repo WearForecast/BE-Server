@@ -2,11 +2,12 @@ import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { AuthRepository } from './auth.repository';
-import { JwtStrategy } from './guard/jwt.strategy';
+import { JwtStrategy } from './strategy/jwt.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { BcryptPasswordService } from './bcrypt-password.service';
 import { TokenService } from './token.service';
+import { GoogleStrategy } from './strategy/google.strategy';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { TokenService } from './token.service';
     JwtStrategy,
     BcryptPasswordService,
     TokenService,
+    GoogleStrategy,
   ],
 })
 export class AuthModule {}
