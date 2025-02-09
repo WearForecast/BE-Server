@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   Post,
   Put,
@@ -25,11 +26,42 @@ import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { CurrentUser } from './decorator/user.decorator';
 import { UserBaseInfo } from './type/user-base-info.type';
 import { ChangePasswordPayload } from './payload/change-password.payload';
+import { GoogleAuthGuard } from './guard/google.guard';
 
 @Controller('auth')
 @ApiTags('Auth API')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  // This endpoint initiates the Google OAuth flow.
+  @Get('google')
+  @UseGuards(GoogleAuthGuard)
+  @ApiOperation({ summary: '구글 OAuth 인증', description: '프론트에서 이 api로 접근해야 함.' })
+  // This route will be handled by Passport and will redirect the user to Google.
+  googleAuth() {}
+
+  // This endpoint handles the callback from Google.
+  @Get('google/callback')
+  @UseGuards(GoogleAuthGuard)
+  @ApiOperation({ summary: '구글 OAuth 인증 콜백', description: 'Google에서 리다이렉트 된 후 이 api로 접근됨.' })
+  async googleAuthRedirec(
+    @Req() req: Request,
+    @Res({ passthrough: true }) res: Response,
+  ): Promise<TokenDto> {
+    // At this point, req.user contains the Google user info provided by our GoogleStrategy.
+    const tokens = await this.authService.googleLogin(req.user);
+
+    // Set the refresh token as a cookie.
+    res.cookie('refreshToken', tokens.refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      // Replace with your actual domain in production.
+      domain: 'localhost',
+    });
+
+    return TokenDto.from(tokens.accessToken);
+  }
 
   // Sign Up
   @Post('sign-up')
