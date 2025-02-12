@@ -16,6 +16,7 @@ model User {
   gender       String
   refreshToken String? @map("refresh_token")
   birthyear    Int
+  isEmailVerified Boolean @default(false)
 }
 
 model image_embeddings {

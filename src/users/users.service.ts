@@ -17,7 +17,7 @@ export class UsersService {
     });
     
     // Exclude sensitive fields from the returned object.
-    const { password, refreshToken, email, id, ...result } = updatedUser;
+    const { password, refreshToken, email, id, isEmailVerified, ...result } = updatedUser;
     return result;
   }
 }
