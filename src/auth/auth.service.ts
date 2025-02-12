@@ -49,6 +49,35 @@ export class AuthService {
     return this.generateTokens(user.id);
   }
 
+
+  // GitHub OAuth login logic.
+  async githubLogin(githubUser: any): Promise<Tokens> {
+    const { email, username, name } = githubUser;
+    if (!email) {
+      throw new UnauthorizedException('GitHub account did not return an email address.');
+    }
+
+    // Check if the user already exists.
+    let user = await this.authRepository.getUserByEmail(email);
+    if (!user) {
+      // If not, create a new user with default values.
+      // Generate a random password since it won’t be used.
+      const randomPassword = Math.random().toString(36).substring(2);
+      const newUserData: SignUpData = {
+        name: name || username || email,
+        email,
+        password: await this.passwordService.getEncryptPassword(randomPassword),
+        birthyear: 0,
+        region: '',
+        gender: '',
+      };
+      user = await this.authRepository.createUser(newUserData);
+    }
+
+    return this.generateTokens(user.id);
+  }
+
+
   //Sign up Logic
   async signUp(payload: SignUpPayload): Promise<Tokens> {
     const user = await this.authRepository.getUserByEmail(payload.email);

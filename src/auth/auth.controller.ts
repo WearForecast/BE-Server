@@ -27,24 +27,26 @@ import { CurrentUser } from './decorator/user.decorator';
 import { UserBaseInfo } from './type/user-base-info.type';
 import { ChangePasswordPayload } from './payload/change-password.payload';
 import { GoogleAuthGuard } from './guard/google.guard';
+import { GithubAuthGuard } from './guard/github.guard';
 
 @Controller('auth')
 @ApiTags('Auth API')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+
   // This endpoint initiates the Google OAuth flow.
   @Get('google')
   @UseGuards(GoogleAuthGuard)
-  @ApiOperation({ summary: '구글 OAuth 인증', description: '프론트에서 이 api로 접근해야 함.' })
+  @ApiOperation({ summary: '구글 OAuth 인증', description: '프론트에서 이 API로 접근해야 함.' })
   // This route will be handled by Passport and will redirect the user to Google.
   googleAuth() {}
 
   // This endpoint handles the callback from Google.
   @Get('google/callback')
   @UseGuards(GoogleAuthGuard)
-  @ApiOperation({ summary: '구글 OAuth 인증 콜백', description: 'Google에서 리다이렉트 된 후 이 api로 접근됨.' })
-  async googleAuthRedirec(
+  @ApiOperation({ summary: '구글 OAuth 인증 콜백', description: 'Google에서 리다이렉트 된 후 이 API로 접근됨.' })
+  async googleAuthRedirect(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ): Promise<TokenDto> {
@@ -62,6 +64,37 @@ export class AuthController {
 
     return TokenDto.from(tokens.accessToken);
   }
+
+
+   // Initiates the GitHub OAuth flow.
+   @Get('github')
+   @UseGuards(GithubAuthGuard)
+   @ApiOperation({ summary: 'GitHub OAuth 인증', description: '프론트에서 이 API로 접근해야 함.' })
+   // This route is handled by Passport and will redirect the user to GitHub.
+   githubAuth() {}
+ 
+   // Handles the callback from GitHub.
+   @Get('github/callback')
+   @UseGuards(GithubAuthGuard)
+   @ApiOperation({ summary: 'GitHub OAuth 콜백', description: 'GitHub에서 리다이렉트 된 후 이 API로 접근됨.' })
+   async githubAuthRedirect(
+     @Req() req: Request,
+     @Res({ passthrough: true }) res: Response,
+   ): Promise<TokenDto> {
+     // req.user will contain the GitHub user info provided by the GithubStrategy.
+     const tokens = await this.authService.githubLogin(req.user);
+ 
+     // Set the refresh token as a cookie (use dynamic domain settings in production).
+     res.cookie('refreshToken', tokens.refreshToken, {
+       httpOnly: true,
+       secure: true,
+       sameSite: 'strict',
+       domain: 'localhost', // process.env.COOKIE_DOMAIN || 'localhost',
+     });
+ 
+     return TokenDto.from(tokens.accessToken);
+   }
+  
 
   // Sign Up
   @Post('sign-up')

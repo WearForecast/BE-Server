@@ -8,6 +8,7 @@ import { ConfigService } from '@nestjs/config';
 import { BcryptPasswordService } from './bcrypt-password.service';
 import { TokenService } from './token.service';
 import { GoogleStrategy } from './strategy/google.strategy';
+import { GithubStrategy } from './strategy/github.strategy';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { GoogleStrategy } from './strategy/google.strategy';
     BcryptPasswordService,
     TokenService,
     GoogleStrategy,
+    GithubStrategy,
   ],
 })
 export class AuthModule {}
