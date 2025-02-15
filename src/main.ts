@@ -8,7 +8,7 @@ async function bootstrap() {
 
   app.enableCors(); // Enable CORS
 
-  app.useGlobalPipes(new ValidationPipe({transform: true})); // Enable ValidationPipe
+  app.useGlobalPipes(new ValidationPipe({ transform: true })); // Enable ValidationPipe
 
   // Swagger Setting
   const config = new DocumentBuilder()

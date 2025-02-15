@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   NotFoundException,
@@ -13,6 +14,8 @@ import { TokenService } from './token.service';
 import { LoginPayload } from './payload/login.payload';
 import { UserBaseInfo } from './type/user-base-info.type';
 import { ChangePasswordPayload } from './payload/change-password.payload';
+import { JwtService } from '@nestjs/jwt';
+import { EmailService } from 'src/email/email.service';
 
 @Injectable()
 export class AuthService {
@@ -20,13 +23,17 @@ export class AuthService {
     private readonly authRepository: AuthRepository,
     private readonly passwordService: BcryptPasswordService,
     private readonly tokenService: TokenService,
+    private readonly jwtService: JwtService,
+    private readonly emailService: EmailService,
   ) {}
 
-   // New method to handle Google OAuth login
-   async googleLogin(googleUser: any): Promise<Tokens> {
+  // New method to handle Google OAuth login
+  async googleLogin(googleUser: any): Promise<Tokens> {
     const { email, firstName, lastName } = googleUser;
     if (!email) {
-      throw new UnauthorizedException('Google account did not return an email address.');
+      throw new UnauthorizedException(
+        'Google account did not return an email address.',
+      );
     }
 
     // Check if the user already exists
@@ -39,9 +46,9 @@ export class AuthService {
         name: `${firstName}`.trim() || email,
         email,
         password: await this.passwordService.getEncryptPassword(randomPassword),
-        birthyear: 0, 
-        region: '',     
-        gender: '',     
+        birthyear: 0,
+        region: '',
+        gender: '',
       };
       user = await this.authRepository.createUser(newUserData);
     }
@@ -49,12 +56,13 @@ export class AuthService {
     return this.generateTokens(user.id);
   }
 
-
   // GitHub OAuth login logic.
   async githubLogin(githubUser: any): Promise<Tokens> {
     const { email, username, name } = githubUser;
     if (!email) {
-      throw new UnauthorizedException('GitHub account did not return an email address.');
+      throw new UnauthorizedException(
+        'GitHub account did not return an email address.',
+      );
     }
 
     // Check if the user already exists.
@@ -77,19 +85,55 @@ export class AuthService {
     return this.generateTokens(user.id);
   }
 
-
-  //Sign up Logic
-  async signUp(payload: SignUpPayload): Promise<Tokens> {
-    const user = await this.authRepository.getUserByEmail(payload.email);
-    if (user) {
+  // 1. Initiate sign-up: Generate a JWT with the sign-up data and send a verification email.
+  async initiateSignUp(payload: SignUpPayload): Promise<{ message: string }> {
+    const existingUser = await this.authRepository.getUserByEmail(
+      payload.email,
+    );
+    if (existingUser) {
       throw new ConflictException('이미 사용중인 이메일입니다.');
+    }
+
+    // Create a JWT containing the sign-up data (expires in 24 hours)
+    const token = this.jwtService.sign(
+      { ...payload },
+      {
+        expiresIn: '24h',
+        secret: process.env.EMAIL_VERIFICATION_SECRET,
+      },
+    );
+
+    const verificationUrl = `${process.env.PRODUCTION_URL}/auth/complete-signup?token=${token}`;
+    // const verificationUrl = `${process.env.DEV_URL}/auth/complete-signup?token=${token}`;
+
+    await this.emailService.sendVerificationEmail(
+      payload.email,
+      verificationUrl,
+    );
+
+    return {
+      message:
+        '회원가입 요청이 접수되었습니다. 이메일을 확인하여 가입을 완료해주세요.',
+    };
+  }
+
+  // 2. Complete sign-up: Verify the token and create the user account.
+  async completeSignUp(
+    token: string,
+  ): Promise<{ message: string; tokens: Tokens }> {
+    let payload: SignUpPayload;
+    try {
+      payload = this.jwtService.verify(token, {
+        secret: process.env.EMAIL_VERIFICATION_SECRET,
+      });
+    } catch (error) {
+      throw new BadRequestException('유효하지 않거나 만료된 토큰입니다.');
     }
 
     const hashedPassword = await this.passwordService.getEncryptPassword(
       payload.password,
     );
-
-    const inputData: SignUpData = {
+    const userData: SignUpData = {
       name: payload.name,
       email: payload.email,
       password: hashedPassword,
@@ -98,10 +142,41 @@ export class AuthService {
       gender: payload.gender,
     };
 
-    const createdUser = await this.authRepository.createUser(inputData);
+    // Create the user and mark the email as verified
+    const createdUser = await this.authRepository.createUser(userData);
+    await this.authRepository.updateUser(createdUser.id, {
+      isEmailVerified: true,
+    });
 
-    return this.generateTokens(createdUser.id);
+    const tokens = await this.generateTokens(createdUser.id);
+
+    return { message: '가입이 완료되었습니다!', tokens };
   }
+
+  // //Sign up Logic
+  // async signUp(payload: SignUpPayload): Promise<Tokens> {
+  //   const user = await this.authRepository.getUserByEmail(payload.email);
+  //   if (user) {
+  //     throw new ConflictException('이미 사용중인 이메일입니다.');
+  //   }
+
+  //   const hashedPassword = await this.passwordService.getEncryptPassword(
+  //     payload.password,
+  //   );
+
+  //   const inputData: SignUpData = {
+  //     name: payload.name,
+  //     email: payload.email,
+  //     password: hashedPassword,
+  //     birthyear: payload.birthyear,
+  //     region: payload.region,
+  //     gender: payload.gender,
+  //   };
+
+  //   const createdUser = await this.authRepository.createUser(inputData);
+
+  //   return this.generateTokens(createdUser.id);
+  // }
 
   // Login Logic
   async login(payload: LoginPayload): Promise<Tokens> {

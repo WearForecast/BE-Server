@@ -6,4 +6,5 @@ export type UpdateUserData = {
   region?: string;
   gender?: string;
   refreshToken?: string | null;
+  isEmailVerified?: boolean;
 };

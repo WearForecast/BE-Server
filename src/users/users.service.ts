@@ -15,9 +15,10 @@ export class UsersService {
       where: { id: userId },
       data: payload,
     });
-    
+
     // Exclude sensitive fields from the returned object.
-    const { password, refreshToken, email, id, isEmailVerified, ...result } = updatedUser;
+    const { password, refreshToken, email, id, isEmailVerified, ...result } =
+      updatedUser;
     return result;
   }
 }

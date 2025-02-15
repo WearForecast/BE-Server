@@ -9,6 +9,7 @@ import { BcryptPasswordService } from './bcrypt-password.service';
 import { TokenService } from './token.service';
 import { GoogleStrategy } from './strategy/google.strategy';
 import { GithubStrategy } from './strategy/github.strategy';
+import { EmailService } from 'src/email/email.service';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { GithubStrategy } from './strategy/github.strategy';
     TokenService,
     GoogleStrategy,
     GithubStrategy,
+    EmailService,
   ],
 })
 export class AuthModule {}

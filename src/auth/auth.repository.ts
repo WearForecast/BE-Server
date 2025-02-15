@@ -27,6 +27,7 @@ export class AuthRepository {
         region: true,
         gender: true,
         refreshToken: true,
+        isEmailVerified: true,
       },
     });
   }
@@ -44,6 +45,7 @@ export class AuthRepository {
         region: data.region,
         gender: data.gender,
         refreshToken: data.refreshToken,
+        isEmailVerified: data.isEmailVerified,
       },
       select: {
         id: true,
@@ -54,6 +56,7 @@ export class AuthRepository {
         region: true,
         gender: true,
         refreshToken: true,
+        isEmailVerified: true,
       },
     });
   }
@@ -72,6 +75,7 @@ export class AuthRepository {
         region: true,
         gender: true,
         refreshToken: true,
+        isEmailVerified: true,
       },
     });
   }
@@ -90,6 +94,7 @@ export class AuthRepository {
         region: true,
         gender: true,
         refreshToken: true,
+        isEmailVerified: true,
       },
     });
   }

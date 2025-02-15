@@ -13,7 +13,10 @@ export class UsersController {
   // PATCH endpoint for updating user profile fields.
   @Patch('profile')
   @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: '프로필 수정', description: '로그인한 사용자의 프로필을 수정하는 API.' })
+  @ApiOperation({
+    summary: '프로필 수정',
+    description: '로그인한 사용자의 프로필을 수정하는 API.',
+  })
   @ApiBearerAuth('access-token')
   @ApiOkResponse({ type: UpdateProfilePayload })
   async updateProfile(
