@@ -7,4 +7,5 @@ export type UserBaseInfo = {
   region: string;
   gender: string;
   refreshToken: string | null;
+  isEmailVerified: boolean;
 };

@@ -7,6 +7,7 @@ import { configModule } from './modules/config.module';
 import { CommonModule } from 'src/common/common.module';
 import { WeatherModule } from 'src/weather/weather.module';
 import { RecommendationModule } from 'src/recommendation/recommendation.module';
+import { EmailModule } from 'src/email/email.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { RecommendationModule } from 'src/recommendation/recommendation.module';
     CommonModule,
     WeatherModule,
     RecommendationModule,
+    EmailModule,
   ],
   controllers: [AppController],
   providers: [AppService],
