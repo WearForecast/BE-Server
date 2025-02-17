@@ -11,7 +11,7 @@
   <img src="./images/google_cloud-icon.svg" alt="GCP Logo" width="120" style="margin: 30px;">
 </p>
 
-<p align="center">Built with <a href=https://github.com/nestjs/nest><strong>NestJS</strong></a>, a progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+<p align="center">Built with <a href=https://github.com/nestjs/nest>NestJS</a>, a progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
 
 <h2>Overview</h2>
 <p style="font-weight: normal">
