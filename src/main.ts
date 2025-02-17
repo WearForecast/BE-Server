@@ -3,12 +3,14 @@ import { AppModule } from './app/app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
+import { HttpExceptionFilter } from './common/filter/exception.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors(); // Enable CORS
   app.use(cookieParser()); // Enable CookieParser
+  app.useGlobalFilters(new HttpExceptionFilter()); // Enable ExceptionFilter
 
   app.useGlobalPipes(new ValidationPipe({ transform: true })); // Enable ValidationPipe
 
