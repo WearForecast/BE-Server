@@ -68,7 +68,6 @@ $ yarn start:dev
   This is a project based on the GDG KU worktree.
 </p>
 
-<!-- Images -->
 <p align="center">
   <img src="./images/Nestjs_logo.svg" alt="NestJS Logo" width="120">
   <img src="./images/supabase-icon.svg" alt="Supabase Logo" width="120">
@@ -76,11 +75,8 @@ $ yarn start:dev
   <img src="./images/google_cloud-icon.svg" alt="GCP Logo" width="120">
 </p>
 
-<!-- Link to NestJS -->
-<p align="center"><a href=https://github.com/nestjs/nest><strong>NestJS</a></p>
-<p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+<p align="center">Built with <a href=https://github.com/nestjs/nest><strong>NestJS</a>, a progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
 
-<!-- Overview -->
 <h2>Overview</h2>
 <p>
   WearForecast is a weather-based clothing recommendation app designed to help users select outfits
@@ -113,7 +109,6 @@ $ yarn start:dev
   reliable and efficient backend for the application.
 </p>
 
-<!-- API List -->
 <h2>API List</h2>
 <p>
   The following are the API List for the wearforecast app.<br>
@@ -155,21 +150,12 @@ $ yarn start:dev
   </li>
 </ul>
 
-<!-- Install the project -->
 <h2>Install the project</h2>
-<code>
-$ git clone https://github.com/WearForecast/BE-Server.git
-</code>
+<pre><code>$ git clone https://github.com/WearForecast/BE-Server.git</code></pre>
 
-<!-- Project setup -->
 <h2>Project setup (Install Dependency)</h2>
-<code>
-$ yarn install
-</code>
+<pre><code>$ yarn install</code></pre>
 
-<!-- Compile and Run -->
 <h2>Compile and Run the project</h2>
-<code>
-$ yarn start:dev
-</code>
+<pre><code>$ yarn start:dev</code></pre>
 
