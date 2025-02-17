@@ -1,4 +1,4 @@
-import { Controller, Get, Request, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
 import { RecommendationService } from './recommendation.service';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
@@ -13,7 +13,7 @@ export class RecommendationController {
   @ApiOkResponse({ type: RecommendationResponseDto })
   @ApiBearerAuth('access-token')
   @UseGuards(JwtAuthGuard)
-  async getRecommendation(@Request() req): Promise<RecommendationResponseDto> {
+  async getRecommendation(@Req() req): Promise<RecommendationResponseDto> {
     const { user } = req;
 
     return await this.recommendationService.getRecommendation(user);
