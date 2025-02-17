@@ -5,10 +5,10 @@
 </p>
 
 <p align="center">
-  <img src="./images/Nestjs_logo.svg" alt="NestJS Logo" width="120" style="margin: 30px;">
-  <img src="./images/supabase-icon.svg" alt="Supabase Logo" width="120" style="margin: 30px;">
-  <img src="./images/docker-official.svg" alt="Docker Logo" width="120" style="margin: 30px;">
-  <img src="./images/google_cloud-icon.svg" alt="GCP Logo" width="120" style="margin: 30px;">
+  <img src="./misc/images/Nestjs_logo.svg" alt="NestJS Logo" width="120" style="margin: 30px;">
+  <img src="./misc/images/supabase-icon.svg" alt="Supabase Logo" width="120" style="margin: 30px;">
+  <img src="./misc/images/docker-official.svg" alt="Docker Logo" width="120" style="margin: 30px;">
+  <img src="./misc/images/google_cloud-icon.svg" alt="GCP Logo" width="120" style="margin: 30px;">
 </p>
 
 <p align="center">Built with <a href=https://github.com/nestjs/nest>NestJS</a>, a progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
