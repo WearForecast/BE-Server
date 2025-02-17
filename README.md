@@ -1,15 +1,20 @@
 # 날씨 기반 옷 추천 앱 WearForecast
-GitHub Repository for the Backend server of the wearforecast project.
+Repository for the Backend server of the wearforecast project.
 This is a project based on the GDG KU worktree.
 
-<p align="center">
+<!-- <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+</p> -->
+[NestJS_Logo](./images/Nestjs_logo.svg)
+[Supabase_Logo](./images/Supabase_logo.png)
+[Docker_Logo](./images/Docker_logo.webp)
+[GCP_Logo](./images/GCP_logo.webp)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+<!-- [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 <p align="center"><a href=https://github.com/nestjs/nest><strong>NestJS</a></p>
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+<p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p> -->
+[NestJS](https://github.com/nestjs/nest)
 
 ## Overview
 WearForecast is a weather-based clothing recommendation app designed to help users select outfits tailored to current weather conditions. This repository contains the backend server, built with NestJS, which powers the application by handling:
