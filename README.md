@@ -1,20 +1,15 @@
-<!-- # 날씨 기반 옷 추천 앱 WearForecast
+# 날씨 기반 옷 추천 앱 WearForecast
 Repository for the Backend server of the wearforecast project.
 This is a project based on the GDG KU worktree.
 
 <!-- <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p> -->
-![](./images/Nestjs_logo.svg)
-![](./images/Supabase_logo.png)
-![](./images/Docker_logo.webp)
-![](./images/GCP_logo.webp)
 
 <!-- [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
 <p align="center"><a href=https://github.com/nestjs/nest><strong>NestJS</a></p>
 <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p> -->
-[NestJS](https://github.com/nestjs/nest)
 
 ## Overview
 WearForecast is a weather-based clothing recommendation app designed to help users select outfits tailored to current weather conditions. This repository contains the backend server, built with NestJS, which powers the application by handling:
@@ -66,23 +61,6 @@ $ yarn install
 $ yarn start:dev
 ```
 
-<!-- <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p> -->
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)--> -->
-
-  <!-- README.html (You can rename this to README.md, but keep the HTML content) -->
 
 <h1>날씨 기반 옷 추천 앱 WearForecast</h1>
 <p>
@@ -92,10 +70,10 @@ $ yarn start:dev
 
 <!-- Images -->
 <p>
-  <img src="./images/Nestjs_logo.svg" alt="NestJS Logo">
-  <img src="./images/Supabase_logo.png" alt="Supabase Logo">
-  <img src="./images/Docker_logo.webp" alt="Docker Logo">
-  <img src="./images/GCP_logo.webp" alt="GCP Logo">
+  <img src="./images/Nestjs_logo.svg" alt="NestJS Logo" width="120">
+  <img src="./images/Supabase_logo.png" alt="Supabase Logo" width="120">
+  <img src="./images/Docker_logo.webp" alt="Docker Logo" width="120">
+  <img src="./images/GCP_logo.webp" alt="GCP Logo" width="120">
 </p>
 
 <!-- Link to NestJS -->
@@ -180,19 +158,19 @@ $ yarn start:dev
 
 <!-- Install the project -->
 <h2>Install the project</h2>
-<pre><code>
-git clone https://github.com/WearForecast/BE-Server.git
-</code></pre>
+<code>
+$ git clone https://github.com/WearForecast/BE-Server.git
+</code>
 
 <!-- Project setup -->
 <h2>Project setup (Install Dependency)</h2>
-<pre><code>
-yarn install
-</code></pre>
+<code>
+$ yarn install
+</code>
 
 <!-- Compile and Run -->
 <h2>Compile and Run the project</h2>
-<pre><code>
-yarn start:dev
-</code></pre>
+<code>
+$ yarn start:dev
+</code>
 
