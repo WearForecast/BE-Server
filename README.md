@@ -69,17 +69,16 @@ $ yarn start:dev
 </p>
 
 <!-- Images -->
-<p>
+<p align="center">
   <img src="./images/Nestjs_logo.svg" alt="NestJS Logo" width="120">
-  <img src="./images/Supabase_logo.png" alt="Supabase Logo" width="120">
-  <img src="./images/Docker_logo.webp" alt="Docker Logo" width="120">
-  <img src="./images/GCP_logo.webp" alt="GCP Logo" width="120">
+  <img src="./images/supabase-icon.svg" alt="Supabase Logo" width="120">
+  <img src="./images/docker-official.svg" alt="Docker Logo" width="120">
+  <img src="./images/google_cloud-icon.svg" alt="GCP Logo" width="120">
 </p>
 
 <!-- Link to NestJS -->
-<p>
-  <a href="https://github.com/nestjs/nest">NestJS</a>
-</p>
+<p align="center"><a href=https://github.com/nestjs/nest><strong>NestJS</a></p>
+<p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
 
 <!-- Overview -->
 <h2>Overview</h2>
