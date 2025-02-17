@@ -6,7 +6,7 @@ Backend server for the wearforecast project
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
-<p align="center"><strong>NestJS</p>
+<p align="center"><strong>[NestJS](https://github.com/nestjs/nest)</p>
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
     <!-- <p align="center">
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
@@ -24,9 +24,25 @@ Backend server for the wearforecast project
   <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
-## Description
+## Overview
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## API List
+- Auth 
+    - GET /google
+    - GET /google/callback
+    - GET /github
+    - GET /github/callback
+    - POST /sign-up
+    - GET /complete-signup
+    - POST /login
+    - POST /refresh
+    - PUT /password
+- Users
+    - PATCH /profile
+- Weather
+    - GET /weather
+- Recommendation
+    - GET /recommendation
 
 ## Install the project
 ```bash
