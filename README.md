@@ -14,11 +14,11 @@
 <p align="center">Built with <a href=https://github.com/nestjs/nest><strong>NestJS</a>, a progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
 
 <h2>Overview</h2>
-<div style="font-weight: normal;">
+<p style="font-weight: normal !important;">
   WearForecast is a weather-based clothing recommendation app designed to help users select outfits
   tailored to current weather conditions. This repository contains the backend server, built with
   NestJS, which powers the application by handling:
-</div>
+</p>
 
 <ul>
   <li>
