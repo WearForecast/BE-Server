@@ -5,10 +5,10 @@ This is a project based on the GDG KU worktree.
 <!-- <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p> -->
-[NestJS_Logo](./images/Nestjs_logo.svg)
-[Supabase_Logo](./images/Supabase_logo.png)
-[Docker_Logo](./images/Docker_logo.webp)
-[GCP_Logo](./images/GCP_logo.webp)
+![NestJS_Logo](./images/Nestjs_logo.svg)
+![Supabase_Logo](./images/Supabase_logo.png)
+![Docker_Logo](./images/Docker_logo.webp)
+![GCP_Logo](./images/GCP_logo.webp)
 
 <!-- [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
