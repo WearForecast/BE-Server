@@ -64,15 +64,15 @@ $ yarn start:dev
 
 <h1>날씨 기반 옷 추천 앱 WearForecast</h1>
 <p>
-  Repository for the Backend server of the wearforecast project.<br>
+  Repository for the Backend server of the wearforecast project.
   This is a project based on the GDG KU worktree.
 </p>
 
 <p align="center">
-  <img src="./images/Nestjs_logo.svg" alt="NestJS Logo" width="120">
-  <img src="./images/supabase-icon.svg" alt="Supabase Logo" width="120">
-  <img src="./images/docker-official.svg" alt="Docker Logo" width="120">
-  <img src="./images/google_cloud-icon.svg" alt="GCP Logo" width="120">
+  <img src="./images/Nestjs_logo.svg" alt="NestJS Logo" width="120" style="margin: 10px;">
+  <img src="./images/supabase-icon.svg" alt="Supabase Logo" width="120" style="margin: 10px;">
+  <img src="./images/docker-official.svg" alt="Docker Logo" width="120" style="margin: 10px;">
+  <img src="./images/google_cloud-icon.svg" alt="GCP Logo" width="120" style="margin: 10px;">
 </p>
 
 <p align="center">Built with <a href=https://github.com/nestjs/nest><strong>NestJS</a>, a progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
