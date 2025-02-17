@@ -1,5 +1,7 @@
-# BE-Server
-Backend server for the wearforecast project
+# 날씨 기반 옷 추천 앱 WearForecast
+GitHub Repository for the Backend server of the wearforecast project.
+This is a project based on GDG KU.
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
@@ -25,9 +27,20 @@ Backend server for the wearforecast project
   [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
 
 ## Overview
+WearForecast is a weather-based clothing recommendation app designed to help users select outfits tailored to current weather conditions. This repository contains the backend server, built with NestJS, which powers the application by handling:
+
+**- Robust Authentication**: Secure sign-up and login processes with support for Google and GitHub OAuth, plus email verification to ensure account authenticity.
+**- User Management**: APIs for managing user profiles and preferences.
+Weather Integration: Real-time weather data retrieval to inform personalized recommendations.
+**- Personalized Recommendations**: Logic to generate outfit suggestions based on the latest weather and user settings.
+**- Modern Tooling & Deployment**: Built with NestJS and Prisma for scalable server-side development, containerized with Docker, and deployed on Google Cloud Platform using automated CI/CD pipelines.
+
+Developed as part of the WearForecast initiative and inspired by GDG KU, this project follows best practices for code quality, security, and maintainability, ensuring a reliable and efficient backend for the application.
 
 ## API List
+The following are the API List for the wearforecast app.
 
+**These APIs are subject to change.**
 - Auth 
     - GET /google
     - GET /google/callback
