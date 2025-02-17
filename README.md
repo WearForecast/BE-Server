@@ -6,7 +6,7 @@ Backend server for the wearforecast project
 
 [circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
 [circleci-url]: https://circleci.com/gh/nestjs/nest
-<p align="center"><strong>[NestJS](https://github.com/nestjs/nest)</p>
+<p align="center"><a href=https://github.com/nestjs/nest><strong>NestJS</a></p>
   <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
     <!-- <p align="center">
 <a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
@@ -27,6 +27,7 @@ Backend server for the wearforecast project
 ## Overview
 
 ## API List
+
 - Auth 
     - GET /google
     - GET /google/callback
@@ -45,6 +46,7 @@ Backend server for the wearforecast project
     - GET /recommendation
 
 ## Install the project
+
 ```bash
 $ git clone https://github.com/WearForecast/BE-Server.git
 ```
