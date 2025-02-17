@@ -11,10 +11,10 @@
   <img src="./images/google_cloud-icon.svg" alt="GCP Logo" width="120" style="margin: 30px;">
 </p>
 
-<p align="center">Built with <a href=https://github.com/nestjs/nest><strong>NestJS</a>, a progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
+<p align="center">Built with <a href=https://github.com/nestjs/nest><strong>NestJS</strong></a>, a progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
 
 <h2>Overview</h2>
-<p style="font-weight: normal !important;">
+<p style="font-weight: normal">
   WearForecast is a weather-based clothing recommendation app designed to help users select outfits
   tailored to current weather conditions. This repository contains the backend server, built with
   NestJS, which powers the application by handling:
@@ -35,7 +35,7 @@
   </li>
   <li>
     <strong>Modern Tooling &amp; Deployment:</strong> Built with NestJS and Prisma for scalable
-    server-side development, containerized with Docker, and deployed on Google Cloud Platform
+    server-side development, data stored in Supabase, containerized with Docker, and deployed on Google Cloud Platform
     using automated CI/CD pipelines.
   </li>
 </ul>
