@@ -65,7 +65,7 @@ export class AuthController {
       secure: true,
       sameSite: 'strict',
       // Replace with your actual domain in production.
-      domain: 'localhost',
+      // domain: 'localhost',
     });
 
     return TokenDto.from(tokens.accessToken);
@@ -100,7 +100,7 @@ export class AuthController {
       httpOnly: true,
       secure: true,
       sameSite: 'strict',
-      domain: 'localhost', // process.env.COOKIE_DOMAIN || 'localhost',
+      // domain: 'localhost', // process.env.COOKIE_DOMAIN || 'localhost',
     });
 
     return TokenDto.from(tokens.accessToken);
@@ -132,7 +132,7 @@ export class AuthController {
       httpOnly: true,
       secure: true,
       sameSite: 'strict',
-      domain: 'localhost', // Adjust as needed for production
+      // domain: 'localhost', // Adjust as needed for production
     });
     return TokenDto.from(result.tokens.accessToken);
   }
@@ -179,7 +179,7 @@ export class AuthController {
       secure: true,
       sameSite: 'strict',
       // 이후 실제 도메인으로 변경
-      domain: 'localhost',
+      // domain: 'localhost',
     });
 
     return TokenDto.from(tokens.accessToken);
@@ -205,7 +205,7 @@ export class AuthController {
       secure: true,
       sameSite: 'strict',
       // 이후 실제 도메인으로 변경
-      domain: 'localhost',
+      // domain: 'localhost',
     });
 
     return TokenDto.from(tokens.accessToken);

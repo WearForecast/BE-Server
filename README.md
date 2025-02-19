@@ -69,6 +69,7 @@
   <li>
     <strong>Users</strong>
     <ul>
+      <li>GET /profile</li>
       <li>PATCH /profile</li>
     </ul>
   </li>

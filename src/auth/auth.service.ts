@@ -51,6 +51,18 @@ export class AuthService {
         gender: '',
       };
       user = await this.authRepository.createUser(newUserData);
+      await this.authRepository.updateUser(user.id, {
+        isEmailVerified: true,
+      });
+    } else {
+      // If the user exists but isn't marked as verified, update the flag.
+      if (!user.isEmailVerified) {
+        await this.authRepository.updateUser(user.id, {
+          isEmailVerified: true,
+        });
+        // Optionally, re-fetch the user record if needed.
+        user = await this.authRepository.getUserByEmail(email);
+      }
     }
 
     return this.generateTokens(user.id);
@@ -80,8 +92,19 @@ export class AuthService {
         gender: '',
       };
       user = await this.authRepository.createUser(newUserData);
+      await this.authRepository.updateUser(user.id, {
+        isEmailVerified: true,
+      });
+    } else {
+      // If the user exists but isn't marked as verified, update the flag.
+      if (!user.isEmailVerified) {
+        await this.authRepository.updateUser(user.id, {
+          isEmailVerified: true,
+        });
+        // Optionally, re-fetch the user record if needed.
+        user = await this.authRepository.getUserByEmail(email);
+      }
     }
-
     return this.generateTokens(user.id);
   }
 
