@@ -1,4 +1,4 @@
-import { Controller, Patch, Body, Req, UseGuards } from '@nestjs/common';
+import { Controller, Patch, Body, Req, UseGuards, Get } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/guard/jwt-auth.guard';
 import { ApiBearerAuth, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
@@ -9,6 +9,18 @@ import { UpdateProfilePayload } from './payload/update-profile.payload';
 @Controller('users')
 export class UsersController {
   constructor(private readonly userService: UsersService) {}
+
+  @Get('profile')
+  @UseGuards(JwtAuthGuard)
+  @ApiOperation({
+    summary: '프로필 조회',
+    description: '로그인한 사용자의 프로필을 조회하는 API.',
+  })
+  @ApiBearerAuth('access-token')
+  @ApiOkResponse({ description: '사용자 정보' })
+  async getProfile(@CurrentUser() user: UserBaseInfo) {
+    return this.userService.getProfile(user.id);
+  }
 
   // PATCH endpoint for updating user profile fields.
   @Patch('profile')
