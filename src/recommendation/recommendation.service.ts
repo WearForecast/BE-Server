@@ -1,18 +1,21 @@
 import { HttpService } from '@nestjs/axios';
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { WeatherService } from 'src/weather/weather.service';
 import { RecommendationResponseDto } from './dto/recommendation-response.dto';
 import { firstValueFrom } from 'rxjs';
 import { buildAIRequestPayload } from './payload/ai-request.payload';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class RecommendationService {
   constructor(
     private readonly weatherService: WeatherService,
     private readonly httpService: HttpService,
+    @Inject(CACHE_MANAGER) private cacheManager: Cache
   ) {}
 
-  async getRecommendation(user: any): Promise<RecommendationResponseDto> {
+  async getRecommendation(user: any, forceNew: boolean = false): Promise<RecommendationResponseDto> {
     if (!user || !user.gender) {
       throw new HttpException(
         'User information is missing or incomplete',
@@ -25,6 +28,20 @@ export class RecommendationService {
     const weatherData = await this.weatherService.getWeatherByLocation(
       user.region,
     );
+
+    const cacheKey = `recommendation:${gender}:${JSON.stringify(weatherData)}`;
+    console.log('Cache key:', cacheKey);
+
+    if (!forceNew) {
+      const cached = await this.cacheManager.get<RecommendationResponseDto>(cacheKey);
+      if (cached) {
+        console.log('Returning cached recommendation');
+        return cached;
+      }
+      console.log('No Cache found');
+    } else {
+      console.log('Force new recommendation')
+    }
 
     // Build the payload (e.g., { gender: "Male", weather: "POP: 20, ..." })
     const aiRequestPayload = buildAIRequestPayload(gender, weatherData);
@@ -54,6 +71,8 @@ export class RecommendationService {
         images: data[0],
         recommendation_summary: data[1],
       };
+
+      await this.cacheManager.set(cacheKey, recommendationResponse, 0);
 
       return recommendationResponse;
     } catch (error) {

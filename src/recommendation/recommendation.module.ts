@@ -7,7 +7,7 @@ import { WeatherService } from 'src/weather/weather.service';
 import { LocationService } from 'src/weather/location/location.service';
 
 @Module({
-  imports: [HttpModule, WeatherModule],
+  imports: [HttpModule, WeatherModule,],
   controllers: [RecommendationController],
   providers: [RecommendationService, WeatherService, LocationService],
 })
