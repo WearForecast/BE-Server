@@ -12,10 +12,13 @@ export class RecommendationService {
   constructor(
     private readonly weatherService: WeatherService,
     private readonly httpService: HttpService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
   ) {}
 
-  async getRecommendation(user: any, forceNew: boolean = false): Promise<RecommendationResponseDto> {
+  async getRecommendation(
+    user: any,
+    forceNew: boolean = false,
+  ): Promise<RecommendationResponseDto> {
     if (!user || !user.gender) {
       throw new HttpException(
         'User information is missing or incomplete',
@@ -33,14 +36,15 @@ export class RecommendationService {
     console.log('Cache key:', cacheKey);
 
     if (!forceNew) {
-      const cached = await this.cacheManager.get<RecommendationResponseDto>(cacheKey);
+      const cached =
+        await this.cacheManager.get<RecommendationResponseDto>(cacheKey);
       if (cached) {
         console.log('Returning cached recommendation');
         return cached;
       }
       console.log('No Cache found');
     } else {
-      console.log('Force new recommendation')
+      console.log('Force new recommendation');
     }
 
     // Build the payload (e.g., { gender: "Male", weather: "POP: 20, ..." })

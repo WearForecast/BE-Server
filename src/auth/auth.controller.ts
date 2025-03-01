@@ -40,7 +40,8 @@ export class AuthController {
   @UseGuards(GoogleAuthGuard)
   @ApiOperation({
     summary: '구글 OAuth 인증',
-    description: '프론트에서 이 API로 접근해야 함. https://wearforecast-767741558681.asia-northeast1.run.app/auth/google',
+    description:
+      '프론트에서 이 API로 접근해야 함. https://wearforecast-767741558681.asia-northeast1.run.app/auth/google',
   })
   // This route will be handled by Passport and will redirect the user to Google.
   googleAuth() {}
