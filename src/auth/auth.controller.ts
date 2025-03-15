@@ -56,20 +56,31 @@ export class AuthController {
   async googleAuthRedirect(
     @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
-  ): Promise<TokenDto> {
-    // At this point, req.user contains the Google user info provided by our GoogleStrategy.
-    const tokens = await this.authService.googleLogin(req.user);
+  ): Promise<void> {
+    try {
+      // req.user contains the Google user info provided by the GoogleAuthGuard/Strategy.
+      const tokens = await this.authService.googleLogin(req.user);
 
-    // Set the refresh token as a cookie.
-    res.cookie('refreshToken', tokens.refreshToken, {
-      httpOnly: true,
-      secure: true,
-      sameSite: 'strict',
-      // Replace with your actual domain in production.
-      // domain: 'localhost',
-    });
+      // Set the refresh token as a cookie.
+      res.cookie('refreshToken', tokens.refreshToken, {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'strict',
+        // domain: 'localhost', 
+      });
 
-    return TokenDto.from(tokens.accessToken);
+      // Redirect to frontend with the token and user data in query params.
+      const redirectUrl = `https://wearforecast.vercel.app/auth/google/callback?token=${tokens.accessToken}&user=${encodeURIComponent(
+        JSON.stringify(req.user),
+      )}`;
+      return res.redirect(redirectUrl);
+    } catch (error) {
+      console.error('Google OAuth Error:', error);
+      return res.redirect(
+        'https://wearforecast.vercel.app/login?error=auth_failed',
+      );
+    }
+    // return TokenDto.from(tokens.accessToken);
   }
 
   // Initiates the GitHub OAuth flow.

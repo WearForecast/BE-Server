@@ -8,7 +8,9 @@ import { HttpExceptionFilter } from './common/filter/exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.enableCors(); // Enable CORS
+  app.enableCors({
+    origin: 'https://wearforecast.vercel.app'
+  }); // Enable CORS
   app.use(cookieParser()); // Enable CookieParser
   app.useGlobalFilters(new HttpExceptionFilter()); // Enable ExceptionFilter
 
