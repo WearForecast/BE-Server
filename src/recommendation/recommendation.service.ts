@@ -25,7 +25,18 @@ export class RecommendationService {
         HttpStatus.BAD_REQUEST,
       );
     }
-    const gender = user.gender;
+
+    // Convert Gender to English
+    const gender = (() => {
+      if (user.gender === '남') {
+        return 'men';
+      } else if (user.gender === '여') {
+        return 'women';
+      } else {
+        return 'neutral';
+      }
+    })(); 
+    console.log(gender);
 
     // Get weather data by user's location
     const weatherData = await this.weatherService.getWeatherByLocation(
