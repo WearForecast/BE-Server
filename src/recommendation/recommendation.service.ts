@@ -10,10 +10,48 @@ import { Cache } from 'cache-manager';
 @Injectable()
 export class RecommendationService {
   constructor(
+    @Inject(CACHE_MANAGER) private cacheManager: Cache,
     private readonly weatherService: WeatherService,
     private readonly httpService: HttpService,
-    @Inject(CACHE_MANAGER) private cacheManager: Cache,
-  ) {}
+  ) {
+    this.testCacheConnection();
+  }
+
+  private generateCacheKey(gender: string, weatherData: any): string {
+    const simplifiedWeather = {
+      POP: weatherData.POP,
+      PTY: weatherData.PTY,
+      SKY: weatherData.SKY,
+      TMN: weatherData.TMN,
+      TMX: weatherData.TMX,
+      WSD: weatherData.WSD,
+      REH: weatherData.REH,
+      T1H: Math.round(parseFloat(weatherData.T1H)),
+    };
+
+    return `recommendation:${gender}:${JSON.stringify(simplifiedWeather)}`;
+  }
+
+  private async testCacheConnection() {
+    try {
+      const testKey = 'test-connection';
+      const testValue = 'test-' + Date.now();
+      await this.cacheManager.set(testKey, testValue, 60);
+      const result = await this.cacheManager.get(testKey);
+      console.log('Cache connection test:', {
+        success: result === testValue,
+        expected: testValue,
+        received: result,
+      });
+    } catch (error) {
+      console.error('Cache connection test failed:', error);
+    }
+  }
+
+  private stripTokenFromUrl(url: string): string {
+    // Remove the token query parameter from the URL
+    return url.split('?')[0];
+  }
 
   async getRecommendation(
     user: any,
@@ -26,7 +64,6 @@ export class RecommendationService {
       );
     }
 
-    // Convert Gender to English
     const gender = (() => {
       if (user.gender === '남') {
         return 'men';
@@ -35,33 +72,42 @@ export class RecommendationService {
       } else {
         return 'neutral';
       }
-    })(); 
-    console.log(gender);
+    })();
 
-    // Get weather data by user's location
     const weatherData = await this.weatherService.getWeatherByLocation(
       user.region,
     );
 
-    const cacheKey = `recommendation:${gender}:${JSON.stringify(weatherData)}`;
-    console.log('Cache key:', cacheKey);
+    const cacheKey = this.generateCacheKey(gender, weatherData);
+    console.log('Generated cache key:', cacheKey);
 
     if (!forceNew) {
-      const cached =
-        await this.cacheManager.get<RecommendationResponseDto>(cacheKey);
-      if (cached) {
-        console.log('Returning cached recommendation');
-        return cached;
+      try {
+        console.log('Attempting to retrieve from cache with key:', cacheKey);
+        const cached = await this.cacheManager.get<string>(cacheKey);
+        console.log('Raw cached data:', cached);
+
+        if (cached) {
+          try {
+            const parsedData = JSON.parse(cached);
+            console.log('Parsed cached data:', parsedData);
+            if (parsedData.images && parsedData.recommendation_summary) {
+              return parsedData as RecommendationResponseDto;
+            }
+          } catch (parseError) {
+            console.error('Error parsing cached data:', parseError);
+          }
+        }
+        console.log('Cache miss or invalid data');
+      } catch (error) {
+        console.error('Cache retrieval error:', error);
       }
-      console.log('No Cache found');
     } else {
       console.log('Force new recommendation');
     }
 
-    // Build the payload (e.g., { gender: "Male", weather: "POP: 20, ..." })
     const aiRequestPayload = buildAIRequestPayload(gender, weatherData);
 
-    // Build the full AI server URL
     const baseUrl = process.env.AI_SERVER_URL;
     const trimmedBaseUrl = baseUrl.endsWith('/')
       ? baseUrl.slice(0, -1)
@@ -69,15 +115,12 @@ export class RecommendationService {
     const aiEndpoint = '/recommend';
     const aiServerUrl = `${trimmedBaseUrl}${aiEndpoint}`;
 
-    // Convert payload to query parameters
     const queryParams = new URLSearchParams();
     queryParams.append('gender', aiRequestPayload.gender);
     queryParams.append('weather', aiRequestPayload.weather);
     const urlWithQuery = `${aiServerUrl}?${queryParams.toString()}`;
 
     try {
-      // Send a POST request to the URL that now contains query parameters.
-      // Since all data is in the query string, no request body is needed.
       const response = await firstValueFrom(
         this.httpService.post(urlWithQuery),
       );
@@ -87,7 +130,38 @@ export class RecommendationService {
         recommendation_summary: data[1],
       };
 
-      await this.cacheManager.set(cacheKey, recommendationResponse, 0);
+      // Cache the response with explicit TTL
+      try {
+        const stringifiedData = JSON.stringify(recommendationResponse);
+        console.log('Attempting to cache data with TTL 3600');
+
+        // Explicitly set TTL in set operation
+        await this.cacheManager.set(
+          cacheKey,
+          stringifiedData,
+          3600 * 1000, // TTL in milliseconds
+        );
+
+        // Double verification
+        const immediateVerification =
+          await this.cacheManager.get<string>(cacheKey);
+        console.log('Immediate cache verification:', {
+          success: !!immediateVerification,
+          matchesOriginal: immediateVerification === stringifiedData,
+        });
+
+        // Delayed verification
+        setTimeout(async () => {
+          const delayedVerification =
+            await this.cacheManager.get<string>(cacheKey);
+          console.log('Delayed cache verification (1s):', {
+            success: !!delayedVerification,
+            matchesOriginal: delayedVerification === stringifiedData,
+          });
+        }, 1000);
+      } catch (cacheError) {
+        console.error('Error caching data:', cacheError);
+      }
 
       return recommendationResponse;
     } catch (error) {

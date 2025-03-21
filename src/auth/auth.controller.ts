@@ -65,8 +65,9 @@ export class AuthController {
       res.cookie('refreshToken', tokens.refreshToken, {
         httpOnly: true,
         secure: true,
-        sameSite: 'strict',
-        // domain: 'localhost', 
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
       });
 
       // Redirect to frontend with the token and user data in query params.
@@ -111,8 +112,9 @@ export class AuthController {
     res.cookie('refreshToken', tokens.refreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
-      // domain: 'localhost', // process.env.COOKIE_DOMAIN || 'localhost',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return TokenDto.from(tokens.accessToken);
@@ -143,8 +145,9 @@ export class AuthController {
     res.cookie('refreshToken', result.tokens.refreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
-      // domain: 'localhost', // Adjust as needed for production
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
     return TokenDto.from(result.tokens.accessToken);
   }
@@ -189,9 +192,9 @@ export class AuthController {
     res.cookie('refreshToken', tokens.refreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
-      // 이후 실제 도메인으로 변경
-      // domain: 'localhost',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return TokenDto.from(tokens.accessToken);
@@ -215,9 +218,9 @@ export class AuthController {
     res.cookie('refreshToken', tokens.refreshToken, {
       httpOnly: true,
       secure: true,
-      sameSite: 'strict',
-      // 이후 실제 도메인으로 변경
-      // domain: 'localhost',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
     return TokenDto.from(tokens.accessToken);
